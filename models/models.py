@@ -1,4 +1,4 @@
-from config.config import db
+from config.config import Config
 
 class Director(db.Model):
     __tablename__ = "directors"
