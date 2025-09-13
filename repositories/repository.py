@@ -1,64 +1,37 @@
-from models.director import Director
-from app import db
 
-class DirectorRepository:
-    def get_all(self):
-        return Director.query.all()
+from models.models import pelicula, director
+from sqlalchemy.orm import session
 
-    def get_by_id(self, id_):
-        return Director.query.get(id_)
 
-    def create(self, name):
-        director = Director(name=name)
-        db.session.add(director)
-        db.session.commit()
-        return director
+def __init__(self, db_session: session):
+    self.db = db_session
 
-    def update(self, id_, name):
-        director = self.get_by_id(id_)
-        if director:
-            director.name = name
-            db.session.commit()
-        return director
+def get_all_libros(self):
+    return self.db.query(pelicula).all()
 
-    def delete(self, id_):
-        director = self.get_by_id(id_)
-        if director:
-            db.session.delete(director)
-            db.session.commit()
-        return director
+def get_libro_by_id(self, pelicula_id: int):
+    return self.db.query(pelicula).filter(pelicula.id == pelicula_id).first()
 
-from models.movie import Movie
-from app import db
+def create_libro(self, name: str):
+    nuevo_pelicula = pelicula(name=name)
+    self.db.add(nuevo_pelicula)
+    self.db.commit()
+    self.db.refresh(nuevo_pelicula)
+    return nuevo_pelicula
 
-class MovieRepository:
-    def get_all(self):
-        return Movie.query.all()
 
-    def get_by_id(self, id_):
-        return Movie.query.get(id_)
+def actualizar_libro(selft,pelicula_id: id, name:str = None):
+    pelicula = selft.get_pelicula_by_id(peliculao_id)
+    if pelicula and name:
+        pelicula.name = name
+        selft.db.commit()
+        selft.db.refresh(pelicula)
+    return pelicula
 
-    def create(self, title, year, director_id):
-        movie = Movie(title=title, year=year, director_id=director_id)
-        db.session.add(movie)
-        db.session.commit()
-        return movie
 
-    def update(self, id_, title=None, year=None, director_id=None):
-        movie = self.get_by_id(id_)
-        if movie:
-            if title:
-                movie.title = title
-            if year:
-                movie.year = year
-            if director_id:
-                movie.director_id = director_id
-            db.session.commit()
-        return movie
-
-    def delete(self, id_):
-        movie = self.get_by_id(id_)
-        if movie:
-            db.session.delete(movie)
-            db.session.commit()
-        return movie
+def eliminar_banda(self, pelicula_id: int):
+    pelicula = self.get_pelicula_by_id(pelicula_id)
+    if pelicula:
+        self.db.delete(pelicula)
+        self.db.commit()
+    return pelicula
