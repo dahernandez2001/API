@@ -1,4 +1,5 @@
 import os
+import SQLALCHEMY_DATABASE_URI 
 
 class Config:
     DEBUG = True

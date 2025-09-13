@@ -1,29 +1,18 @@
-from config.config import Config
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship, declarative_base
 
-class Director(db.Model):
-    __tablename__ = "directors"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
 
-    movies = db.relationship("Movie", backref="director", cascade="all, delete-orphan")
+Base = declarative_base()
 
-    def to_dict(self):
-        return {"id": self.id, "name": self.name}
+class pelicula(Base):
+    __tablename__ = "pelicula"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(255), nullable=False)
+    directores = relationship("autor", back_populates="pelicula")
 
-from app import db
-
-class Movie(db.Model):
-    __tablename__ = "movies"
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(150), nullable=False)
-    year = db.Column(db.Integer, nullable=False)
-    director_id = db.Column(db.Integer, db.ForeignKey("directors.id"), nullable=False)
-
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "title": self.title,
-            "year": self.year,
-            "director_id": self.director_id,
-            "director_name": self.director.name if self.director else None,
-        }
+class directores(Base):
+    __tablename__ = "direcotores"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(255), nullable=False)
+    pelicula_id = Column(Integer, ForeignKey("pelicula_id"))
+    pelicula = relationship("pelicula", back_populates="directores")
