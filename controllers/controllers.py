@@ -1,103 +1,68 @@
-from flask import Blueprint, request, jsonify, abort
+from flask import Blueprint, request, jsonify
+from servides.service import pelicula
+pelicula_bp = Blueprint("pelicula_bp, __name__")
 
-def create_director_controller(service):
-    bp = Blueprint('directors', __name__)
+#Importar la sesión de la base de datos
+from config.database import get_db_session
 
-    @bp.route('/directors', methods=['GET'])
-    def get_directors():
-        directors = service.get_all()
-        return jsonify([d.to_dict() for d in directors])
+#Instancia globar de servicio
+service = peliculaService(get_db_session)
 
-    @bp.route('/directors/<int:id_>', methods=['GET'])
-    def get_director(id_):
-        director = service.get_by_id(id_)
-        if not director:
-            abort(404, "Director not found")
-        return jsonify(director.to_dict())
+pelicula_bp = Blueprint("pelicula_bp, __name__")
 
-    @bp.route('/directors', methods=['POST'])
-    def create_director():
-        data = request.json
-        if not data or 'name' not in data:
-            abort(400, "Name is required")
-        director = service.create(data['name'])
-        if not director:
-            abort(500, "Failed to create director")
-        return jsonify(director.to_dict()), 201
+#READ (R): Leer todos los pelicula
+#Método: GET Obtener (solicita datos al servidor ) 
 
-    @bp.route('/directors/<int:id_>', methods=['PUT'])
-    def update_director(id_):
-        data = request.json
-        if not data or 'name' not in data:
-            abort(400, "Name is required")
-        director = service.update(id_, data['name'])
-        if not director:
-            abort(404, "Director not found or update failed")
-        return jsonify(director.to_dict())
+@pelicula_bp.route("pelicula", methods=["GET"])
+def get_pelicula():
 
-    @bp.route('/directors/<int:id_>', methods=['DELETE'])
-    def delete_director(id_):
-        director = service.delete(id_)
-        if not director:
-            abort(404, "Director not found or delete failed")
-        return jsonify({"result": True})
+    pEñicula= service.listar_pelicula()
+    return jsonify([{"id": l.id, "name": l.name} for l in pelicula]), 200 #JsoniFy convierte el diccionario de pelicula en una respuesta JSON
 
-    return bp
+#Obtener pelicula por ID 
 
-def create_movie_controller(service, director_service):
-    bp = Blueprint('movies', __name__)
+@pelicula_bp.route("/pelicula/<int:id>", methods=["GET"]) #Variable dinámica que indica que la parte <...> es una variable
+def obtener_pelicula_por_ID(pelicula_id):
 
-    @bp.route('/movies', methods=['GET'])
-    def get_movies():
-        movies = service.get_all()
-        res = []
-        for m in movies:
-            d = director_service.get_by_id(m.director_id)
-            movie_dict = m.to_dict()
-            movie_dict['director_name'] = d.name if d else None
-            res.append(movie_dict)
-        return jsonify(res)
+    pelicula = service.obtener_pelicula(pelicula_id)
+    if pelicula:
+        return jsonify({"id": pelicula.id, "name": pelicula.name}), 200 
+    return jsonify({"error": "pelicula no encontrado"}), 404 
 
-    @bp.route('/movies/<int:id_>', methods=['GET'])
-    def get_movie(id_):
-        movie = service.get_by_id(id_)
-        if not movie:
-            abort(404, "Movie not found")
-        d = director_service.get_by_id(movie.director_id)
-        movie_dict = movie.to_dict()
-        movie_dict['director_name'] = d.name if d else None
-        return jsonify(movie_dict)
+#CREATE (C): Crear un nuevo pelicula
+#Método: POST para crear un nuevo pelicula
 
-    @bp.route('/movies', methods=['POST'])
-    def create_movie():
-        data = request.json
-        if not data or not all(k in data for k in ('title', 'year', 'director_id')):
-            abort(400, "title, year and director_id are required")
-        movie = service.create(data['title'], data['year'], data['director_id'])
-        if not movie:
-            abort(400, "Director does not exist or movie creation failed")
-        return jsonify(movie.to_dict()), 201
+@pelicula_bp.route("\pelicula", methods=["POST"])
+def create_pelicula():
+    
+    data=request.get_json()
+    name=data.get("name")
+    if not name:
+        return jsonify({"error": "El nombre es obligatorio"}), 400 
+    band = service.crear_banda(name)
+    return jsonify({"id": band.id, "name": band.name}), 201 
 
-    @bp.route('/movies/<int:id_>', methods=['PUT'])
-    def update_movie(id_):
-        data = request.json
-        if not data:
-            abort(400)
-        movie = service.update(
-            id_,
-            title=data.get('title'),
-            year=data.get('year'),
-            director_id=data.get('director_id')
-        )
-        if not movie:
-            abort(404, "Movie not found or update failed")
-        return jsonify(movie.to_dict())
+#Update (U): Actualizar un pelicula
+#Método: PUT actualizar pelicula con obtener el nuevo pelicula creado
 
-    @bp.route('/movies/<int:id_>', methods=['DELETE'])
-    def delete_movie(id_):
-        movie = service.delete(id_)
-        if not movie:
-            abort(404, "Movie not found or delete failed")
-        return jsonify({"result": True})
+@pelicula_bp.route("/pelicula/<int:id>", methods=["PUT"])
+def actualizar_pelicula(pelicula_id):
 
-    return bp
+    data=request.get_json()
+    name=data.get("name")
+    pelicula=service.actualizar_pelicula(pelicula_id, name)
+
+    if pelicula:
+        return jsonify({"id": pelicula_id, "name": pelicula.name}), 200
+    return jsonify({"error": "pelicula no encontrado"}), 404
+
+#Delete (D): Borrar un pelicula
+#Método: DELETE para eliminar algún pelicula igualmente por ID
+
+@pelicula_bp.route("/pelicula/<int:id>", methods=["DELETE"])
+def eliminar_pelicula(pelicula_id):
+    
+    pelicula = service,eliminar_pelicula(pelicula_id)
+    if pelicula:
+        return jsonify({"message": "pelicula eliminado"}), 200
+    return jsonify({"error": "pelicula no encontrado"}), 404
