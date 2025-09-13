@@ -1,12 +1,12 @@
 from flask import Blueprint, request, jsonify
-from servides.service import pelicula
+from services.service import pelicula
 pelicula_bp = Blueprint("pelicula_bp, __name__")
 
 #Importar la sesión de la base de datos
-from config.database import get_db_session
+from config.config import get_db_session
 
 #Instancia globar de servicio
-service = peliculaService(get_db_session)
+service = pelicula (get_db_session)
 
 pelicula_bp = Blueprint("pelicula_bp, __name__")
 
