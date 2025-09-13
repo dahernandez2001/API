@@ -18,7 +18,7 @@ En esta carpeta importamos desde Models la clase Base (que contiene la definici�
 
 3. Esta parte se ocupa de manejar todas las operaciones y acciones del sistema. Aquí se importan desde la carpeta Models las clases Libros y Autores para poder trabajar con ellas y ejecutar las diferentes instrucciones relacionadas con esos datos.
 
-4.	Esta carpeta se encarga de gestionar las reglas de negocio del sistema. Desde aquí se realizan las validaciones necesarias para asegurar que los datos y las operaciones cumplan con las especificaciones y requisitos definidos.
+4. Esta carpeta se encarga de gestionar las reglas de negocio del sistema. Desde aquí se realizan las validaciones necesarias para asegurar que los datos y las operaciones cumplan con las especificaciones y requisitos definidos.
 
 La carpeta Service recibe solicitudes desde los Controllers y se encarga de procesarlas, verificando que la información sea correcta y consistente antes de proceder.
 
@@ -27,7 +27,7 @@ Además, esta capa se comunica de manera directa con la base de datos, para obte
 En este nivel, se importan datos desde la carpeta repositories (por ejemplo, la entidad autores) y también desde la carpeta Models (como el modelo Libro), integrando así la lógica con el acceso a los datos.
 
 
-5.	Carpeta Controlers:
+5. Carpeta Controlers:
 Tiene la responsabilidad de recibir las solicitudes del usuario y luego lo entrega (controla las operaciones), actúa como un intermediario entre la capa de presentación (Ruta de una Api o Interfaz de usuario) y la lógica del negocio (Servicios - service).
 
 
