@@ -16,7 +16,6 @@ Además, esta carpeta actúa como una especie de base de datos simulada o punto 
 
 En esta carpeta importamos desde Models la clase Base (que contiene la definición de los modelos) para poder crear e implementar las tablas en la base de datos. Es decir, aquí se orquesta la conexión real con la base de datos y se instancian las tablas que ya fueron definidas previamente en los modelos.
 
-
 3. Esta parte se ocupa de manejar todas las operaciones y acciones del sistema. Aquí se importan desde la carpeta Models las clases Libros y Autores para poder trabajar con ellas y ejecutar las diferentes instrucciones relacionadas con esos datos.
 
 4.	Esta carpeta se encarga de gestionar las reglas de negocio del sistema. Desde aquí se realizan las validaciones necesarias para asegurar que los datos y las operaciones cumplan con las especificaciones y requisitos definidos.
