@@ -1,5 +1,5 @@
 # API
-La carpeta Models tiene como función principal definir la forma en que se estructuran los datos dentro del proyecto. Es decir, aquí se crean los modelos que representan las tablas de la base de datos y se especifican los campos (columnas), tipos de datos, así como las relaciones entre entidades.
+1. La carpeta Models tiene como función principal definir la forma en que se estructuran los datos dentro del proyecto. Es decir, aquí se crean los modelos que representan las tablas de la base de datos y se especifican los campos (columnas), tipos de datos, así como las relaciones entre entidades.
 
 En esta carpeta no se importan archivos de otras partes del proyecto, incluyendo configuraciones como la de la base de datos ubicada en la carpeta config. En su lugar, se trabaja únicamente con los módulos propios de SQLAlchemy, como:
 
