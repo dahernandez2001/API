@@ -1,13 +1,13 @@
 # API
 1. La carpeta Models tiene como función principal definir la forma en que se estructuran los datos dentro del proyecto. Es decir, aquí se crean los modelos que representan las tablas de la base de datos y se especifican los campos (columnas), tipos de datos, así como las relaciones entre entidades.
 
-En esta carpeta no se importan archivos de otras partes del proyecto, incluyendo configuraciones como la de la base de datos ubicada en la carpeta config. En su lugar, se trabaja únicamente con los módulos propios de SQLAlchemy, como:
+ En esta carpeta no se importan archivos de otras partes del proyecto, incluyendo configuraciones como la de la base de datos ubicada en la carpeta config. En su lugar, se trabaja únicamente con los módulos propios de SQLAlchemy, como:
 
-sqlalchemy (para definir columnas, tipos de datos, claves primarias, etc.)
+ sqlalchemy (para definir columnas, tipos de datos, claves primarias, etc.)
 
-sqlalchemy.orm (para manejar relaciones entre modelos y otras herramientas ORM)
+ sqlalchemy.orm (para manejar relaciones entre modelos y otras herramientas ORM)
 
-De este modo, los modelos se mantienen independientes de otras capas del proyecto, permitiendo una mejor organización y reutilización del código.
+ De este modo, los modelos se mantienen independientes de otras capas del proyecto, permitiendo una mejor organización y reutilización del código.
 
 
 2.Esta carpeta es fundamental para que el sistema funcione correctamente, ya que aquí se gestionan las configuraciones necesarias para la aplicación. Entre sus archivos suele estar el archivo .env, donde se almacenan variables de entorno y otros datos sensibles o configurables.
