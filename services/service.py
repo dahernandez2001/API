@@ -1,5 +1,6 @@
-from repositories.pelicula import director
-from models.pelicula import pelicula
+import os
+from repositories.repository import director
+from models.models import pelicula
 from sqlalchemy.orm import session
 
 class BandService:

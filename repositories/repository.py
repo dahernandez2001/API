@@ -1,4 +1,4 @@
-
+import os
 from models.models import pelicula, director
 from sqlalchemy.orm import session
 
@@ -21,7 +21,7 @@ def create_libro(self, name: str):
 
 
 def actualizar_libro(selft,pelicula_id: id, name:str = None):
-    pelicula = selft.get_pelicula_by_id(peliculao_id)
+    pelicula = selft.get_pelicula_by_id(pelicula_id)
     if pelicula and name:
         pelicula.name = name
         selft.db.commit()

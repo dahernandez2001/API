@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint, request, jsonify
 from services.service import pelicula
 pelicula_bp = Blueprint("pelicula_bp, __name__")

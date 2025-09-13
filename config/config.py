@@ -7,6 +7,7 @@ from models.models import base
 from dotenv import load_dotenv
 logging.basicConfig(level=logging.INFO)
 
+
 # Cargar variables de entorno desde .env
 load_dotenv()
 
@@ -31,7 +32,7 @@ def get_engine():
 
 engine = get_engine()
 Session = sessionmaker(bind=engine)
-Base.metadata.create_all(engine)
+base.metadata.create_all(engine)
 
 #Retorna una nueva sesión de base de datos para ser utilizada en los servidores o controladores.
 def get_db_session():
